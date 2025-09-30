@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MoodSync - Image-Inspired Music & Quote Matcher</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9.663 17h4.673M12 3l1.5 6L12 15l-1.5-6L12 3z"/>
+                        <circle cx="12" cy="12" r="10"/>
+                    </svg>
+                    <h1>MoodSync</h1>
+                </div>
+                <div class="header-right">
+                    <p class="tagline">Upload an image and discover perfect songs & quotes</p>
+                    <div class="auth-buttons">
+                        <button id="login-btn" class="auth-btn login-btn">Login</button>
+                        <button id="register-btn" class="auth-btn register-btn">Sign Up</button>
+                    </div>
+                    <div id="user-menu" class="user-menu hidden">
+                        <div class="user-info">
+                            <div class="user-avatar">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="12" cy="7" r="4"/>
+                                </svg>
+                            </div>
+                            <span id="user-name" class="user-name">John Doe</span>
+                        </div>
+                        <button id="logout-btn" class="logout-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h2 class="hero-title">Discover Your Perfect Soundtrack & Inspiration</h2>
+                <p class="hero-description">
+                    Upload any image and let our AI analyze the mood, colors, and emotions to suggest songs and quotes that perfectly match your moment.
+                </p>
+            </section>
+
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div id="upload-area" class="upload-area">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7,10 12,15 17,10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    <h3>Drop your image here</h3>
+                    <p>or click to browse your files</p>
+                    <button class="upload-btn">Choose Image</button>
+                    <input type="file" id="file-input" accept="image/*" hidden>
+                </div>
+
+                <!-- Image Preview and Results -->
+                <div id="results-container" class="results-container hidden">
+                    <div class="image-preview">
+                        <img id="preview-image" src="" alt="Uploaded image">
+                        <button id="reset-btn" class="reset-btn">Upload Different Image</button>
+                    </div>
+                    
+                    <div class="suggestions-container">
+                        <!-- Loading State -->
+                        <div id="loading" class="loading hidden">
+                            <div class="spinner"></div>
+                            <p class="loading-text">Analyzing your image...</p>
+                            <p class="loading-subtext">Finding the perfect songs and quotes</p>
+                        </div>
+
+                        <!-- Suggestions -->
+                        <div id="suggestions" class="suggestions hidden">
+                            <h3 class="suggestions-title">Your Personalized Suggestions</h3>
+                            
+                            <!-- Songs Section -->
+                            <div class="section">
+                                <div class="section-header">
+                                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="3"/>
+                                        <path d="M12 1v6m0 6v6"/>
+                                        <path d="m21 12-6-3v6l6-3z"/>
+                                    </svg>
+                                    <h4>Recommended Songs</h4>
+                                </div>
+                                <div id="songs-grid" class="grid"></div>
+                            </div>
+
+                            <!-- Quotes Section -->
+                            <div class="section">
+                                <div class="section-header">
+                                    <svg class="section-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/>
+                                        <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/>
+                                    </svg>
+                                    <h4>Inspiring Quotes</h4>
+                                </div>
+                                <div id="quotes-grid" class="grid"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section class="features">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon blue">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                <polyline points="7,10 12,15 17,10"/>
+                                <line x1="12" y1="15" x2="12" y2="3"/>
+                            </svg>
+                        </div>
+                        <h3>Easy Upload</h3>
+                        <p>Simply drag and drop your image or browse from your device. We support all common image formats.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon purple">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9.663 17h4.673M12 3l1.5 6L12 15l-1.5-6L12 3z"/>
+                                <circle cx="12" cy="12" r="10"/>
+                            </svg>
+                        </div>
+                        <h3>AI-Powered Analysis</h3>
+                        <p>Our advanced AI analyzes colors, mood, and visual elements to provide perfect suggestions.</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="feature-icon pink">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M12 1v6m0 6v6"/>
+                                <path d="m21 12-6-3v6l6-3z"/>
+                            </svg>
+                        </div>
+                        <h3>Curated Content</h3>
+                        <p>Get personalized song and quote recommendations that perfectly match your image's vibe.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 MoodSync. Transform your images into musical and inspirational experiences.</p>
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Welcome Back</h2>
+                <button class="modal-close" id="login-close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="login-form" class="auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="form-submit">Sign In</button>
+                <p class="form-switch">
+                    Don't have an account? 
+                    <button type="button" id="switch-to-register">Sign up here</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="register-modal" class="modal hidden">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close" id="register-close">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <form id="register-form" class="auth-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm">Confirm Password</label>
+                    <input type="password" id="register-confirm" required>
+                </div>
+                <button type="submit" class="form-submit">Create Account</button>
+                <p class="form-switch">
+                    Already have an account? 
+                    <button type="button" id="switch-to-login">Sign in here</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
